@@ -1,0 +1,549 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>IFX CARTEL — The Services</title>
+<meta name="description" content="Three doors. One destination. The Window Program, To Profitable, and From Zero — by Ethan Chiavassa."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Major+Mono+Display&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+html,body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden;scroll-behavior:smooth}
+body{line-height:1.5;min-height:100vh;letter-spacing:-0.005em}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* Noise grain */
+.ifx-root::before{
+content:’’;position:fixed;inset:0;z-index:1000;pointer-events:none;mix-blend-mode:overlay;opacity:.55;
+background-image:url(“data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='320' height='320' filter='url(%23n)'/></svg>”);
+}
+
+/* Atmosphere */
+.atmosphere{position:fixed;inset:0;pointer-events:none;z-index:0;
+background:
+radial-gradient(ellipse 100% 60% at 50% -10%,rgba(0,149,255,.24),transparent 55%),
+radial-gradient(ellipse 70% 50% at 100% 30%,rgba(0,149,255,.13),transparent 55%),
+radial-gradient(ellipse 70% 50% at 0% 60%,rgba(0,149,255,.11),transparent 55%),
+radial-gradient(ellipse 80% 50% at 50% 110%,rgba(0,149,255,.2),transparent 55%);
+}
+.atmosphere::before{content:’’;position:absolute;top:-10%;left:50%;transform:translateX(-50%) rotate(-2deg);width:120%;height:80%;
+background:linear-gradient(180deg,rgba(0,149,255,.07) 0%,transparent 60%),
+conic-gradient(from 180deg at 50% 0%,transparent 0deg,rgba(0,149,255,.09) 90deg,transparent 180deg,rgba(0,149,255,.07) 270deg,transparent 360deg);
+filter:blur(70px);animation:atmosShift 22s ease-in-out infinite}
+@keyframes atmosShift{0%,100%{opacity:.7;transform:translateX(-50%) rotate(-2deg) scale(1)}50%{opacity:1;transform:translateX(-50%) rotate(2deg) scale(1.05)}}
+.horizon-glow{position:fixed;bottom:-30vh;left:0;right:0;height:60vh;pointer-events:none;z-index:0;
+background:radial-gradient(ellipse at 50% 100%,rgba(0,149,255,.45),transparent 70%);
+filter:blur(90px);animation:horizonPulse 8s ease-in-out infinite}
+@keyframes horizonPulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* Grid overlay */
+.grid-overlay{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;
+background-image:linear-gradient(rgba(0,149,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,149,255,.08) 1px,transparent 1px);
+background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,#000 30%,transparent 80%)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+padding:22px 40px;background:rgba(0,0,0,.55);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
+border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:‘Anton’,sans-serif;font-size:26px;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 0 30px rgba(0,149,255,.15)}
+.logo .keo{color:#fff}.logo .mazz{color:#0095ff;text-shadow:0 0 22px rgba(0,149,255,.7)}
+.nav-cta{background:#0095ff;color:#000;padding:12px 22px;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+transition:.3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 24px rgba(0,149,255,.25)}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(0,149,255,.55)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:140px 24px 80px;position:relative;z-index:2;text-align:center}
+.services-eyebrow{font-family:‘Major Mono Display’,monospace;font-size:13px;letter-spacing:.3em;color:#0095ff;text-transform:lowercase;
+display:inline-flex;align-items:center;gap:14px;padding:11px 22px;border:1px solid rgba(0,149,255,.4);
+background:rgba(0,149,255,.05);backdrop-filter:blur(12px);margin-bottom:40px;position:relative}
+.services-eyebrow::before,.services-eyebrow::after{content:’’;width:6px;height:6px;border-radius:50%;background:#0095ff;box-shadow:0 0 12px #0095ff;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+
+.hero-title{font-family:‘Anton’,sans-serif;font-size:clamp(80px,14vw,210px);line-height:.85;text-transform:uppercase;letter-spacing:-.02em;text-align:center}
+.hero-title .line{display:block;position:relative}
+.hero-title .stroke{-webkit-text-stroke:2px rgba(255,255,255,.6);color:transparent;font-style:italic;font-family:‘Cormorant Garamond’,serif;font-weight:500;letter-spacing:-.01em}
+.hero-title .blue{color:#0095ff;text-shadow:0 0 40px rgba(0,149,255,.4),0 0 80px rgba(0,149,255,.15);position:relative;display:inline-block}
+.title-underline{margin:30px auto 0;width:240px;height:2px;background:linear-gradient(90deg,transparent,#0095ff,transparent);position:relative;box-shadow:0 0 24px #0095ff}
+.title-underline::before{content:’’;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;
+background:#0095ff;box-shadow:0 0 24px #0095ff,0 0 56px rgba(0,149,255,.6);animation:gemPulse 2.5s ease-in-out infinite}
+@keyframes gemPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.3);opacity:.7}}
+
+.hero-sub{max-width:740px;font-family:‘Cormorant Garamond’,serif;font-size:clamp(20px,2.4vw,28px);line-height:1.5;color:#dcdcdc;
+margin-top:50px;font-weight:400;font-style:italic;letter-spacing:.005em}
+.hero-sub strong{color:#fff;font-style:normal;font-weight:600;font-family:‘Inter’,sans-serif}
+.hero-sub .highlight{color:#0095ff;font-style:normal;font-weight:500;font-family:‘Anton’,sans-serif;text-transform:uppercase;font-size:.85em;letter-spacing:.04em;text-shadow:0 0 14px rgba(0,149,255,.5)}
+
+.scroll-indicator{margin-top:80px;font-family:‘Major Mono Display’,monospace;font-size:12px;letter-spacing:.3em;color:#666;text-transform:lowercase;
+display:flex;flex-direction:column;align-items:center;gap:14px}
+.scroll-indicator::after{content:’’;width:1px;height:50px;background:linear-gradient(180deg,#0095ff,transparent);animation:scrollBeam 2s ease-in-out infinite}
+@keyframes scrollBeam{0%,100%{transform:scaleY(.5);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* PRODUCT */
+.product{min-height:100vh;padding:140px 24px;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.product-tier{font-family:‘Major Mono Display’,monospace;font-size:13px;letter-spacing:.25em;color:#0095ff;text-transform:lowercase;
+margin-bottom:24px;padding:9px 18px;border:1px solid rgba(0,149,255,.35);background:rgba(0,149,255,.04);display:inline-block}
+.product-title{font-family:‘Anton’,sans-serif;font-size:clamp(60px,10vw,150px);line-height:.85;text-transform:uppercase;letter-spacing:-.02em;
+margin-bottom:18px;filter:drop-shadow(0 0 60px rgba(0,149,255,.25))}
+.product-title .blue{color:#0095ff;text-shadow:0 0 50px rgba(0,149,255,.7)}
+.product-title .italic{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-weight:500;letter-spacing:-.005em;
+-webkit-text-stroke:1.5px rgba(255,255,255,.85);color:transparent}
+.product-tagline{font-family:‘Cormorant Garamond’,serif;font-size:clamp(20px,2.4vw,26px);font-style:italic;font-weight:400;color:#aaa;margin-bottom:80px;letter-spacing:.01em}
+
+.visual-stage{position:relative;margin-bottom:80px;display:flex;align-items:center;justify-content:center}
+
+/* BOOK */
+.book-wrap{position:relative;width:340px;height:480px;perspective:2000px}
+.book-stage{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:bookFloat 7s ease-in-out infinite}
+@keyframes bookFloat{0%,100%{transform:translateY(0) rotateY(-25deg) rotateX(8deg)}50%{transform:translateY(-30px) rotateY(-20deg) rotateX(5deg)}}
+.book-cover{position:absolute;width:340px;height:480px;
+background:
+radial-gradient(ellipse at 30% 25%,rgba(0,149,255,.28),transparent 55%),
+radial-gradient(ellipse at 70% 80%,rgba(0,149,255,.14),transparent 55%),
+linear-gradient(135deg,#0e0e10 0%,#000 50%,#070708 100%);
+border:1px solid rgba(0,149,255,.45);transform:translateZ(22px);
+box-shadow:0 0 120px rgba(0,149,255,.5),inset 0 0 100px rgba(0,149,255,.07),inset 0 0 0 1px rgba(255,255,255,.05);
+display:flex;flex-direction:column;justify-content:space-between;padding:42px 36px;overflow:hidden}
+.book-cover::before{content:’’;position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#0095ff,transparent);box-shadow:0 0 22px #0095ff}
+.book-emblem{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px}
+.book-emblem-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(0,149,255,.5);box-shadow:0 0 40px rgba(0,149,255,.3),inset 0 0 40px rgba(0,149,255,.15)}
+.book-emblem-ring:nth-child(2){inset:20px;border-color:rgba(0,149,255,.3);animation:emblemRotate 18s linear infinite}
+.book-emblem-ring:nth-child(3){inset:50px;border-color:rgba(0,149,255,.22);animation:emblemRotate 25s linear infinite reverse;border-style:dashed}
+@keyframes emblemRotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.book-emblem-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;
+background:radial-gradient(circle,#0095ff,rgba(0,149,255,.3));box-shadow:0 0 36px #0095ff,0 0 72px rgba(0,149,255,.55);animation:corePulse 3s ease-in-out infinite}
+@keyframes corePulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}
+
+.book-cover-eyebrow{font-family:‘Major Mono Display’,monospace;font-size:10px;letter-spacing:.35em;color:#0095ff;text-transform:lowercase;position:relative;z-index:3;text-shadow:0 0 12px rgba(0,149,255,.6)}
+.book-cover-title{font-family:‘Cormorant Garamond’,serif;font-size:24px;line-height:1;color:rgba(255,255,255,.9);font-style:italic;font-weight:500;position:relative;z-index:3;text-align:left}
+.book-cover-title .big{display:block;font-family:‘Anton’,sans-serif;font-size:46px;font-style:normal;font-weight:400;color:#fff;letter-spacing:.01em;text-transform:uppercase;text-shadow:0 0 28px rgba(0,149,255,.55);margin:6px 0}
+.book-cover-title .blue{color:#0095ff}
+.book-cover-bottom{font-family:‘Major Mono Display’,monospace;font-size:11px;letter-spacing:.2em;color:#777;text-transform:lowercase;position:relative;z-index:3;border-top:1px solid rgba(0,149,255,.28);padding-top:16px;text-align:left}
+
+.book-spine{position:absolute;width:44px;height:480px;
+background:linear-gradient(90deg,#000 0%,#0a0a0c 50%,#000 100%);
+border-top:1px solid rgba(0,149,255,.4);border-bottom:1px solid rgba(0,149,255,.4);
+transform:rotateY(-90deg) translateZ(22px) translateX(-22px);
+display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 30px rgba(0,149,255,.12)}
+.book-spine-text{font-family:‘Cormorant Garamond’,serif;font-size:14px;color:#0095ff;letter-spacing:.4em;writing-mode:vertical-rl;transform:rotate(180deg);text-shadow:0 0 12px rgba(0,149,255,.6);font-style:italic}
+.book-back{position:absolute;width:340px;height:480px;background:linear-gradient(135deg,#050507,#000);border:1px solid rgba(255,255,255,.05);transform:translateZ(-22px) rotateY(180deg)}
+.book-shadow{position:absolute;bottom:-80px;left:50%;transform:translateX(-50%);width:380px;height:40px;background:radial-gradient(ellipse,rgba(0,149,255,.55),transparent 70%);filter:blur(22px);animation:shadowPulse 7s ease-in-out infinite}
+@keyframes shadowPulse{0%,100%{opacity:.7;width:380px}50%{opacity:.45;width:330px}}
+
+.particles{position:absolute;inset:-80px;pointer-events:none}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:#0095ff;box-shadow:0 0 10px #0095ff,0 0 22px rgba(0,149,255,.7);animation:floatParticle 10s linear infinite;opacity:0}
+.particle:nth-child(1){left:5%;animation-delay:0s}
+.particle:nth-child(2){left:18%;animation-delay:1.4s;width:2px;height:2px}
+.particle:nth-child(3){left:32%;animation-delay:2.8s}
+.particle:nth-child(4){left:48%;animation-delay:4.2s;width:2px;height:2px}
+.particle:nth-child(5){left:62%;animation-delay:5.6s}
+.particle:nth-child(6){left:78%;animation-delay:7s;width:2px;height:2px}
+.particle:nth-child(7){left:92%;animation-delay:8.4s}
+@keyframes floatParticle{0%{transform:translateY(640px);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-50px);opacity:0}}
+
+/* DISC */
+.disc-wrap{position:relative;width:480px;height:480px;perspective:1500px}
+.disc-stage{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:discFloat 8s ease-in-out infinite}
+@keyframes discFloat{0%,100%{transform:translateY(0) rotateX(18deg) rotateY(-10deg)}50%{transform:translateY(-30px) rotateX(14deg) rotateY(-6deg)}}
+.disc-face{position:absolute;inset:60px;border-radius:50%;
+background:
+radial-gradient(circle at 30% 30%,rgba(0,149,255,.35),transparent 55%),
+radial-gradient(circle at 70% 70%,rgba(0,149,255,.2),transparent 55%),
+linear-gradient(135deg,rgba(255,255,255,.12) 0%,rgba(0,149,255,.07) 50%,rgba(0,0,0,.55) 100%);
+border:1.5px solid rgba(0,149,255,.6);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);
+box-shadow:0 0 140px rgba(0,149,255,.5),inset 0 0 90px rgba(0,149,255,.12),inset 0 0 0 1px rgba(255,255,255,.07);
+display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px;overflow:hidden;gap:14px}
+.disc-face::before{content:’’;position:absolute;top:5%;left:8%;right:8%;height:42%;background:linear-gradient(180deg,rgba(255,255,255,.24),transparent 70%);border-radius:50% 50% 0 0;pointer-events:none}
+.disc-ring{position:absolute;inset:0;border-radius:50%;pointer-events:none}
+.disc-ring:nth-child(1){inset:0;border:1px solid rgba(0,149,255,.38);animation:emblemRotate 15s linear infinite}
+.disc-ring:nth-child(2){inset:30px;border:1px dashed rgba(0,149,255,.22);animation:emblemRotate 22s linear infinite reverse}
+.disc-ring:nth-child(3){inset:60px;border:1px solid rgba(0,149,255,.55);box-shadow:0 0 32px rgba(0,149,255,.32)}
+.disc-orbit{position:absolute;inset:0;border-radius:50%;pointer-events:none;animation:emblemRotate 20s linear infinite}
+.disc-orbit-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#0095ff;box-shadow:0 0 14px #0095ff,0 0 28px rgba(0,149,255,.85)}
+.disc-orbit-dot:nth-child(1){top:0;left:50%;transform:translateX(-50%)}
+.disc-orbit-dot:nth-child(2){bottom:0;left:50%;transform:translateX(-50%);width:6px;height:6px}
+.disc-orbit-dot:nth-child(3){top:50%;left:0;transform:translateY(-50%);width:5px;height:5px}
+.disc-orbit-dot:nth-child(4){top:50%;right:0;transform:translateY(-50%);width:5px;height:5px}
+
+.disc-eyebrow{font-family:‘Major Mono Display’,monospace;font-size:11px;letter-spacing:.3em;color:#0095ff;text-transform:lowercase;position:relative;z-index:3;text-shadow:0 0 14px rgba(0,149,255,.6)}
+.disc-title{font-family:‘Anton’,sans-serif;font-size:54px;line-height:.9;color:#fff;text-transform:uppercase;text-shadow:0 0 40px rgba(0,149,255,.55);position:relative;z-index:3;letter-spacing:-.005em}
+.disc-title .blue{color:#0095ff}
+.disc-title .italic{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-weight:500;-webkit-text-stroke:1.5px rgba(255,255,255,.75);color:transparent}
+.disc-divider{width:60px;height:1px;background:#0095ff;box-shadow:0 0 8px #0095ff;position:relative;z-index:3}
+.disc-tagline{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-style:italic;font-weight:500;color:rgba(255,255,255,.65);letter-spacing:.04em;position:relative;z-index:3}
+.disc-shadow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:420px;height:50px;background:radial-gradient(ellipse,rgba(0,149,255,.6),transparent 70%);filter:blur(30px);animation:shadowPulse 8s ease-in-out infinite}
+
+/* PRODUCT BODY */
+.product-pitch{max-width:720px;font-family:‘Cormorant Garamond’,serif;font-size:clamp(20px,2.2vw,26px);font-style:italic;font-weight:400;line-height:1.6;color:#dcdcdc;margin-bottom:50px;letter-spacing:.005em}
+.product-pitch strong{color:#fff;font-style:normal;font-weight:600;font-family:‘Inter’,sans-serif}
+.product-pitch .key{color:#0095ff;font-style:normal;font-weight:500;font-family:‘Anton’,sans-serif;text-transform:uppercase;font-size:.8em;letter-spacing:.06em;text-shadow:0 0 18px rgba(0,149,255,.55)}
+
+.product-features{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:1px;max-width:840px;width:100%;background:rgba(0,149,255,.18);border:1px solid rgba(0,149,255,.32);margin-bottom:60px}
+.feature{background:rgba(0,0,0,.88);padding:24px 28px;text-align:left;display:flex;align-items:flex-start;gap:14px;font-size:14.5px;line-height:1.55;color:#e2e2e2;font-weight:400;transition:.3s}
+.feature:hover{background:rgba(0,149,255,.05)}
+.feature::before{content:’’;flex-shrink:0;width:8px;height:8px;border-radius:50%;background:#0095ff;box-shadow:0 0 12px #0095ff;margin-top:7px}
+.feature strong{color:#fff;font-weight:700}
+
+.price-block{margin-bottom:36px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.price-label{font-family:‘Major Mono Display’,monospace;font-size:12px;letter-spacing:.25em;color:#888;text-transform:lowercase}
+.price-amount{font-family:‘Anton’,sans-serif;font-size:clamp(64px,8vw,104px);line-height:1;color:#fff;letter-spacing:-.02em;text-shadow:0 0 50px rgba(0,149,255,.45);display:flex;align-items:flex-start}
+.price-amount .currency{font-size:.5em;color:#0095ff;font-weight:400;margin-right:4px;margin-top:.2em;text-shadow:0 0 22px rgba(0,149,255,.65)}
+.price-was{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-weight:500;font-size:26px;color:rgba(255,255,255,.38);text-decoration:line-through;text-decoration-color:rgba(0,149,255,.7);text-decoration-thickness:2px;letter-spacing:.02em;margin-bottom:6px;display:inline-block}
+.price-sub{font-family:‘Cormorant Garamond’,serif;font-style:italic;color:#888;font-size:16px;margin-top:6px}
+
+.cta-btn{display:inline-flex;align-items:center;gap:16px;background:#0095ff;color:#000;padding:24px 48px;font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+transition:.3s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;box-shadow:0 22px 64px rgba(0,149,255,.4)}
+.cta-btn::before{content:’’;position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-100%);transition:.7s}
+.cta-btn:hover::before{transform:translateX(100%)}
+.cta-btn:hover{transform:translateY(-4px);box-shadow:0 32px 88px rgba(0,149,255,.65)}
+.cta-btn .arrow{transition:.25s;font-size:18px}
+.cta-btn:hover .arrow{transform:translateX(6px)}
+
+.btn-secondary{display:inline-flex;align-items:center;gap:14px;background:transparent;color:#fff;padding:18px 42px;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+transition:.3s cubic-bezier(.34,1.56,.64,1);border:1px solid rgba(0,149,255,.5);position:relative;overflow:hidden;font-family:‘Inter’,sans-serif;margin-top:14px}
+.btn-secondary::before{content:’’;position:absolute;inset:0;background:#0095ff;transform:translateY(100%);transition:.3s;z-index:0}
+.btn-secondary span{position:relative;z-index:1;transition:.3s}
+.btn-secondary:hover{border-color:#0095ff;box-shadow:0 12px 40px rgba(0,149,255,.35)}
+.btn-secondary:hover::before{transform:translateY(0)}
+.btn-secondary:hover span{color:#000}
+
+.payment-row{margin-top:24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.payment-row span{font-family:‘Major Mono Display’,monospace;font-size:11px;letter-spacing:.18em;color:#888;text-transform:lowercase;padding:8px 14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.025);backdrop-filter:blur(10px)}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;justify-content:center;padding:0 24px;height:120px;position:relative;z-index:2}
+.divider-line{flex:1;max-width:280px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,149,255,.45),transparent)}
+.divider-mark{font-family:‘Major Mono Display’,monospace;font-size:14px;letter-spacing:.3em;color:#0095ff;text-transform:lowercase;margin:0 28px;text-shadow:0 0 14px rgba(0,149,255,.55)}
+
+/* COMPARE */
+.compare{padding:140px 24px;position:relative;z-index:2;background:radial-gradient(ellipse 80% 50% at 50% 50%,rgba(0,149,255,.06),transparent 70%);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.compare-wrap{max-width:1200px;margin:0 auto;text-align:center}
+.compare-eyebrow{font-family:‘Major Mono Display’,monospace;font-size:13px;letter-spacing:.3em;color:#0095ff;text-transform:lowercase;margin-bottom:20px}
+.compare-title{font-family:‘Anton’,sans-serif;font-size:clamp(48px,7vw,88px);text-transform:uppercase;line-height:.9;margin-bottom:20px;letter-spacing:-.01em}
+.compare-title .italic{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-weight:500;-webkit-text-stroke:1.5px rgba(255,255,255,.65);color:transparent}
+.compare-title .blue{color:#0095ff;text-shadow:0 0 36px rgba(0,149,255,.55)}
+.compare-sub{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-size:20px;color:#888;margin-bottom:60px}
+.compare-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.compare-cell{background:#000;padding:22px 18px;font-size:14px;color:#bbb;line-height:1.4;display:flex;align-items:center;justify-content:center;text-align:center;min-height:70px}
+.compare-cell.head{font-family:‘Anton’,sans-serif;font-size:22px;color:#fff;text-transform:uppercase;letter-spacing:.02em;background:linear-gradient(180deg,rgba(0,149,255,.14),rgba(0,149,255,.04));border-bottom:2px solid #0095ff;padding:28px 16px;flex-direction:column;gap:8px;text-shadow:0 0 22px rgba(0,149,255,.45)}
+.compare-cell.head .price{font-family:‘Cormorant Garamond’,serif;font-size:20px;color:#0095ff;font-weight:600;font-style:italic;letter-spacing:.02em;text-shadow:0 0 12px rgba(0,149,255,.5)}
+.compare-cell.head:first-child{background:rgba(0,0,0,.6);border-bottom-color:rgba(255,255,255,.1)}
+.compare-cell.label{background:rgba(255,255,255,.025);font-family:‘Major Mono Display’,monospace;font-size:12px;letter-spacing:.2em;color:#888;text-transform:lowercase;justify-content:flex-start;text-align:left;padding:22px 24px}
+.compare-cell.yes{color:#0095ff;font-weight:700;font-size:22px;text-shadow:0 0 14px rgba(0,149,255,.65)}
+.compare-cell.no{color:#3a3a3a;font-size:18px}
+.compare-cell.outcome{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-size:15px;color:#ddd;line-height:1.4;padding:20px 16px}
+
+.compare-cta{margin-top:60px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.compare-cta-text{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-size:20px;color:#999;letter-spacing:.01em}
+
+/* TRUST */
+.trust-strip{padding:60px 24px 40px;position:relative;z-index:2;border-top:1px solid rgba(255,255,255,.04);background:rgba(0,0,0,.4)}
+.trust-wrap{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:32px 48px}
+.trust-item{display:flex;align-items:center;gap:10px;font-family:‘Major Mono Display’,monospace;font-size:10.5px;letter-spacing:.2em;color:#666;text-transform:lowercase}
+.trust-item svg{width:14px;height:14px;color:#0095ff;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(0,149,255,.55))}
+.trust-divider{width:1px;height:14px;background:rgba(255,255,255,.1)}
+
+/* FOOTER */
+footer{padding:100px 24px 50px;border-top:1px solid rgba(255,255,255,.05);position:relative;z-index:2;text-align:center}
+.footer-logo{font-family:‘Anton’,sans-serif;font-size:54px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:18px}
+.footer-logo .keo{color:#fff}.footer-logo .mazz{color:#0095ff;text-shadow:0 0 32px rgba(0,149,255,.55)}
+.footer-tag{font-family:‘Cormorant Garamond’,serif;font-style:italic;font-size:17px;color:#888;margin-bottom:36px;letter-spacing:.01em}
+.footer-links{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-bottom:36px}
+.footer-links a{font-family:‘Major Mono Display’,monospace;font-size:12px;letter-spacing:.2em;color:#777;text-transform:lowercase;cursor:pointer;transition:.2s}
+.footer-links a:hover{color:#0095ff;text-shadow:0 0 14px rgba(0,149,255,.55)}
+.footer-copy{font-family:‘Major Mono Display’,monospace;font-size:11px;letter-spacing:.2em;color:#444;text-transform:lowercase}
+.footer-legal{max-width:880px;margin:50px auto 0;padding-top:32px;border-top:1px solid rgba(255,255,255,.04)}
+.footer-disclaimer{font-family:‘Inter’,sans-serif;font-weight:400;font-size:11px;line-height:1.6;color:#444;text-align:center;letter-spacing:.01em;margin-bottom:24px}
+.footer-bottom-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-legal-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-legal-links a{font-family:‘Major Mono Display’,monospace;font-size:10px;letter-spacing:.2em;color:#444;text-transform:lowercase;transition:.2s}
+.footer-legal-links a:hover{color:#0095ff}
+
+/* CHAT */
+.chat-fab{position:fixed;bottom:32px;right:32px;z-index:200;width:68px;height:68px;border-radius:50%;
+background:linear-gradient(135deg,#0095ff 0%,#0066b3 100%);
+box-shadow:0 14px 44px rgba(0,149,255,.6),inset 0 -4px 12px rgba(0,0,0,.3);
+display:flex;align-items:center;justify-content:center;transition:.3s cubic-bezier(.34,1.56,.64,1);
+animation:fabPulse 2.5s ease-in-out infinite;border:1px solid rgba(255,255,255,.2)}
+@keyframes fabPulse{0%,100%{box-shadow:0 14px 44px rgba(0,149,255,.6),0 0 0 0 rgba(0,149,255,.5),inset 0 -4px 12px rgba(0,0,0,.3)}50%{box-shadow:0 14px 44px rgba(0,149,255,.6),0 0 0 18px rgba(0,149,255,0),inset 0 -4px 12px rgba(0,0,0,.3)}}
+.chat-fab:hover{transform:scale(1.1)}
+.chat-fab svg{width:30px;height:30px;color:#000}
+.chat-fab .fab-badge{position:absolute;top:-4px;right:-4px;font-family:‘JetBrains Mono’,monospace;font-size:9px;font-weight:800;background:#fff;color:#0095ff;padding:4px 7px;letter-spacing:.15em;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.chat-panel{position:fixed;bottom:120px;right:32px;z-index:201;width:400px;max-width:calc(100vw - 40px);height:600px;max-height:calc(100vh - 180px);
+background:linear-gradient(180deg,#0a0a0c 0%,#000 100%);border:1px solid rgba(0,149,255,.4);
+box-shadow:0 40px 100px rgba(0,0,0,.85),0 0 80px rgba(0,149,255,.22);display:flex;flex-direction:column;
+transform:scale(.92) translateY(20px);opacity:0;pointer-events:none;transition:.35s cubic-bezier(.34,1.56,.64,1);overflow:hidden;backdrop-filter:blur(20px)}
+.chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.chat-header{padding:22px 26px;border-bottom:1px solid rgba(0,149,255,.25);background:linear-gradient(180deg,rgba(0,149,255,.1),transparent);display:flex;align-items:center;justify-content:space-between;position:relative}
+.chat-title{display:flex;align-items:center;gap:12px}
+.chat-title-dot{width:9px;height:9px;border-radius:50%;background:#0095ff;box-shadow:0 0 12px #0095ff;animation:pulse 2s infinite}
+.chat-title-text{font-family:‘Anton’,sans-serif;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:#fff;text-shadow:0 0 22px rgba(0,149,255,.45)}
+.chat-title-sub{font-family:‘Major Mono Display’,monospace;font-size:10px;letter-spacing:.25em;color:#0095ff;text-transform:lowercase;display:block;margin-top:3px}
+.chat-close{color:#888;font-size:24px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.chat-close:hover{color:#fff;transform:rotate(90deg)}
+.chat-messages{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
+.chat-messages::-webkit-scrollbar{width:4px}.chat-messages::-webkit-scrollbar-thumb{background:#0095ff;border-radius:2px}
+.msg{max-width:88%;padding:14px 18px;font-size:14.5px;line-height:1.55;animation:msgIn .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.bot{align-self:flex-start;background:rgba(0,149,255,.08);border:1px solid rgba(0,149,255,.25);color:#e8e8e8;border-bottom-left-radius:0}
+.msg.bot strong{color:#fff;font-weight:700}
+.msg.user{align-self:flex-end;background:#0095ff;color:#000;font-weight:600;border-bottom-right-radius:0;box-shadow:0 4px 16px rgba(0,149,255,.3)}
+.chat-suggestions{display:flex;gap:7px;flex-wrap:wrap;padding:0 22px 14px;border-top:1px solid rgba(255,255,255,.05);padding-top:16px}
+.chat-suggestion{font-family:‘Major Mono Display’,monospace;font-size:11px;letter-spacing:.12em;color:#0095ff;text-transform:lowercase;background:rgba(0,149,255,.06);border:1px solid rgba(0,149,255,.3);padding:8px 13px;cursor:pointer;transition:.2s}
+.chat-suggestion:hover{background:#0095ff;color:#000}
+.chat-input-wrap{padding:16px 22px;border-top:1px solid rgba(0,149,255,.2);display:flex;gap:10px;align-items:center;background:rgba(0,0,0,.5)}
+.chat-input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#fff;padding:14px 16px;font-size:14px;font-family:‘Inter’,sans-serif;outline:none;transition:.2s}
+.chat-input:focus{border-color:#0095ff;background:rgba(0,149,255,.05);box-shadow:0 0 22px rgba(0,149,255,.22)}
+.chat-send{background:#0095ff;color:#000;width:48px;height:48px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.chat-send:hover{transform:translateX(2px);box-shadow:0 0 26px rgba(0,149,255,.7)}
+.chat-send svg{width:18px;height:18px}
+
+/* MOBILE */
+@media(max-width:900px){
+nav{padding:16px 20px}.nav-cta{padding:9px 14px;font-size:10px}
+.hero{padding:120px 20px 60px}
+.services-eyebrow{font-size:10px;letter-spacing:.4em;padding:8px 16px;gap:10px}
+.hero-title{font-size:clamp(56px,16vw,90px)}.hero-sub{font-size:18px}
+.product{padding:80px 20px;min-height:auto}.product-title{font-size:clamp(48px,13vw,72px)}
+.product-tagline{font-size:18px;margin-bottom:50px}
+.visual-stage{margin-bottom:60px;transform:scale(.85)}
+.book-wrap{width:280px;height:400px}.book-cover,.book-back{width:280px;height:400px;padding:32px 26px}
+.book-cover-title .big{font-size:38px}.book-spine{height:400px;width:38px;transform:rotateY(-90deg) translateZ(19px) translateX(-19px)}
+.disc-wrap{width:380px;height:380px}.disc-face{inset:50px;padding:36px}
+.disc-title{font-size:42px}.disc-tagline{font-size:18px}
+.product-pitch{font-size:18px;margin-bottom:36px}
+.product-features{grid-template-columns:1fr;max-width:480px}.feature{padding:18px 22px;font-size:14px}
+.price-amount{font-size:60px}.cta-btn{padding:20px 32px;font-size:12px;letter-spacing:.15em}
+.compare-grid{grid-template-columns:1fr}.compare-cell{min-height:auto}
+.compare-cell.label{background:rgba(0,149,255,.06);border-top:1px solid rgba(0,149,255,.2);color:#0095ff;font-weight:700}
+.compare-cell.head:first-child{display:none}
+.chat-panel{bottom:100px;right:14px;left:14px;width:auto;height:520px}
+.chat-fab{bottom:22px;right:22px;width:60px;height:60px}
+.footer-logo{font-size:42px}.footer-bottom-row{flex-direction:column;text-align:center;gap:14px}
+.trust-wrap{gap:18px 28px}.trust-item{font-size:9.5px;letter-spacing:.15em}.trust-divider{display:none}
+.btn-secondary{padding:16px 32px;font-size:11px;letter-spacing:.15em}
+}
+@media(max-width:480px){
+.visual-stage{transform:scale(.72);margin-bottom:30px}
+.hero-sub{font-size:16px}.product-pitch{font-size:17px}
+}
+</style>
+
+</head>
+<body>
+<div class="ifx-root">
+  <div class="atmosphere"></div>
+  <div class="grid-overlay"></div>
+  <div class="horizon-glow"></div>
+
+  <nav>
+    <div class="logo"><span class="keo">KEO</span><span class="mazz">MAZZ</span></div>
+    <a href="#compare" class="nav-cta">Compare All →</a>
+  </nav>
+
+  <header class="hero">
+    <div class="services-eyebrow">ifx cartel</div>
+    <h1 class="hero-title"><span class="line stroke">The</span><span class="line blue">Services</span></h1>
+    <div class="title-underline"></div>
+    <p class="hero-sub">There's a path here for who you are <strong>right now</strong> — whether you're holding a chart for the first time, or you've been holding losses for two years. <span class="highlight">The system works.</span> The only question is how close you want to be.</p>
+    <div class="scroll-indicator">scroll to explore</div>
+  </header>
+
+  <section class="product">
+    <div class="product-tier">i. self-paced</div>
+    <h2 class="product-title"><span class="italic">The</span> <span class="blue">Window</span></h2>
+    <p class="product-tagline">a complete digital learning platform</p>
+    <div class="visual-stage">
+      <div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
+      <div class="book-wrap"><div class="book-stage">
+        <div class="book-cover">
+          <div class="book-cover-eyebrow">ifx blueprint · vol. i</div>
+          <div class="book-emblem"><div class="book-emblem-ring"></div><div class="book-emblem-ring"></div><div class="book-emblem-ring"></div><div class="book-emblem-core"></div></div>
+          <div class="book-cover-title"><span class="big">The Window</span><span class="big blue">Program</span></div>
+          <div class="book-cover-bottom">by ethan chiavassa · @keomazz</div>
+        </div>
+        <div class="book-spine"><div class="book-spine-text">THE WINDOW PROGRAM</div></div>
+        <div class="book-back"></div>
+      </div><div class="book-shadow"></div></div>
+    </div>
+    <p class="product-pitch">A <strong>complete digital learning platform.</strong> Inside: the full <span class="key">IFX Window Strategy</span>, every module, every rule, every session breakdown — paired with a <strong>30-day AI-guided journey</strong> that walks you from setup to your first profitable session. Login anywhere. Learn at your pace.</p>
+    <div class="product-features">
+      <div class="feature"><div><strong>Full Software Access</strong> — login dashboard, structured curriculum, video walkthroughs, downloadable assets.</div></div>
+      <div class="feature"><div><strong>Complete Window Strategy</strong> — every entry, exit, invalidation rule, and session structure documented and taught in full.</div></div>
+      <div class="feature"><div><strong>30-Day AI Journey</strong> — personalized daily prompts, progress checkpoints, AI-guided feedback on your trades.</div></div>
+      <div class="feature"><div><strong>Lifetime Access &amp; Updates</strong> — every refinement to the system lands in your dashboard forever.</div></div>
+    </div>
+    <div class="price-block">
+      <div class="price-label">one-time · lifetime access</div>
+      <div class="price-was">$1,500</div>
+      <div class="price-amount"><span class="currency">$</span>999</div>
+    </div>
+    <a href="https://buy.stripe.com/aFadR8cux9mqcCb20qcZa0u" target="_blank" class="cta-btn">Begin The Window Program <span class="arrow">→</span></a>
+    <a href="https://buy.stripe.com/eVq28qfGJaqu1Xx7kKcZa0y" target="_blank" class="btn-secondary"><span>Pay in 3 × $333 /mo</span></a>
+    <div class="payment-row"><span>card</span><span>paypal</span><span>sepa instant</span><span>wire</span></div>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">ii.</div><div class="divider-line"></div></div>
+
+  <section class="product">
+    <div class="product-tier">ii. mentorship</div>
+    <h2 class="product-title"><span class="italic">To</span> <span class="blue">Profitable</span></h2>
+    <p class="product-tagline">for the trader who knows the screen, but can't stay green</p>
+    <div class="visual-stage"><div class="disc-wrap"><div class="disc-stage">
+      <div class="disc-ring"></div><div class="disc-ring"></div><div class="disc-ring"></div>
+      <div class="disc-orbit"><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div></div>
+      <div class="disc-face">
+        <div class="disc-eyebrow">ifx blueprint · ii</div>
+        <div class="disc-title"><span class="italic">To</span> <span class="blue">Profitable</span></div>
+        <div class="disc-divider"></div>
+        <div class="disc-tagline">mentorship</div>
+      </div>
+    </div><div class="disc-shadow"></div></div></div>
+    <p class="product-pitch">Six months in, a year in, three years in — and still red on the month. We strip what's broken, plug in the <span class="key">Window System</span>, layer <strong>Ameer's institutional risk</strong> on top, and lock you into profitability inside <span class="key">30 days</span>. Direct mentorship. No filler.</p>
+    <div class="product-features">
+      <div class="feature"><div><strong>Personal Diagnostic Call</strong> — Ethan reviews your account, identifies what's killing your edge.</div></div>
+      <div class="feature"><div><strong>Window Strategy Implementation</strong> — full deployment on YOUR account, your markets, your timezone.</div></div>
+      <div class="feature"><div><strong>Live London &amp; NY Sessions</strong> — trade alongside Ethan in real time on the opens.</div></div>
+      <div class="feature"><div><strong>Hedge Fund Risk Framework</strong> — Ameer's institutional sizing applied to your account.</div></div>
+      <div class="feature"><div><strong>1-on-1 Calls + Direct Line</strong> — private channel to Ethan for the entire program.</div></div>
+      <div class="feature"><div><strong>Profitability Target: 30 Days</strong> — measurable, tracked, accountable.</div></div>
+    </div>
+    <div class="price-block">
+      <div class="price-label">30-day profitability track</div>
+      <div class="price-was">$2,500</div>
+      <div class="price-amount"><span class="currency">$</span>1,800</div>
+    </div>
+    <a href="https://buy.stripe.com/28E28q8eh1TY45FgVkcZa0w" target="_blank" class="cta-btn">Enroll · Get Profitable <span class="arrow">→</span></a>
+    <a href="https://buy.stripe.com/7sYcN40LP6ae7hRfRgcZa0A" target="_blank" class="btn-secondary"><span>Pay in 4 × $450 /mo</span></a>
+    <div class="payment-row"><span>card</span><span>paypal</span><span>sepa instant</span><span>wire</span></div>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">iii.</div><div class="divider-line"></div></div>
+
+  <section class="product">
+    <div class="product-tier">iii. full mentorship</div>
+    <h2 class="product-title"><span class="italic">From</span> <span class="blue">Zero</span></h2>
+    <p class="product-tagline">never opened a chart. ready to walk out funded and profitable.</p>
+    <div class="visual-stage"><div class="disc-wrap"><div class="disc-stage">
+      <div class="disc-ring"></div><div class="disc-ring"></div><div class="disc-ring"></div>
+      <div class="disc-orbit"><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div><div class="disc-orbit-dot"></div></div>
+      <div class="disc-face">
+        <div class="disc-eyebrow">ifx blueprint · iii</div>
+        <div class="disc-title"><span class="italic">From</span> <span class="blue">Zero</span></div>
+        <div class="disc-divider"></div>
+        <div class="disc-tagline">mentorship</div>
+      </div>
+    </div><div class="disc-shadow"></div></div></div>
+    <p class="product-pitch">You walk in not knowing what a pip is. You walk out <span class="key">funded and profitable</span> — the full path, built block by block. Markets, mindset, system, prop firms, institutional risk. Same destination as Tier 02 — just starting from zero.</p>
+    <div class="product-features">
+      <div class="feature"><div><strong>Foundations From Scratch</strong> — markets, brokers, terminology. No assumptions.</div></div>
+      <div class="feature"><div><strong>Mindset Before Money</strong> — the framework before you risk a single dollar.</div></div>
+      <div class="feature"><div><strong>Full Window Strategy</strong> — taught from page one, not assumed.</div></div>
+      <div class="feature"><div><strong>Prop Firm Passing Playbook</strong> — step-by-step path to a funded account.</div></div>
+      <div class="feature"><div><strong>Capital Management with Ameer</strong> — institutional risk discipline from day one.</div></div>
+      <div class="feature"><div><strong>Weekly 1-on-1 Calls + Live Sessions</strong> — direct mentorship, no group cohort dilution.</div></div>
+    </div>
+    <div class="price-block">
+      <div class="price-label">beginner → funded + profitable</div>
+      <div class="price-was">$3,500</div>
+      <div class="price-amount"><span class="currency">$</span>2,500</div>
+    </div>
+    <a href="https://buy.stripe.com/eVq9AS5252Y2au3bB0cZa0x" target="_blank" class="cta-btn">Enroll · Start From Zero <span class="arrow">→</span></a>
+    <a href="https://buy.stripe.com/aFa8wOeCFcyCcCbcF4cZa0z" target="_blank" class="btn-secondary"><span>Pay in 4 × $625 /mo</span></a>
+    <div class="payment-row"><span>card</span><span>paypal</span><span>sepa instant</span><span>wire</span></div>
+  </section>
+
+  <section class="compare" id="compare">
+    <div class="compare-wrap">
+      <div class="compare-eyebrow">// side by side</div>
+      <h2 class="compare-title"><span class="italic">Pick</span> The <span class="blue">Right One</span></h2>
+      <p class="compare-sub">Three doors. One destination.</p>
+      <div class="compare-grid">
+        <div class="compare-cell head">&nbsp;</div>
+        <div class="compare-cell head">The Window<span class="price">$999</span></div>
+        <div class="compare-cell head">To Profitable<span class="price">$1,800</span></div>
+        <div class="compare-cell head">From Zero<span class="price">$2,500</span></div>
+        <div class="compare-cell label">format</div><div class="compare-cell">Self-paced software + AI</div><div class="compare-cell">Live mentorship</div><div class="compare-cell">Live mentorship</div>
+        <div class="compare-cell label">best for</div><div class="compare-cell">Independent learners</div><div class="compare-cell">6+ mo experience, stuck</div><div class="compare-cell">Total beginners</div>
+        <div class="compare-cell label">window strategy</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div>
+        <div class="compare-cell label">mentor — ethan</div><div class="compare-cell no">—</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div>
+        <div class="compare-cell label">mentor — ameer ($50m fund)</div><div class="compare-cell no">—</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div>
+        <div class="compare-cell label">live trading sessions</div><div class="compare-cell no">—</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div>
+        <div class="compare-cell label">1-on-1 calls</div><div class="compare-cell no">—</div><div class="compare-cell yes">✓</div><div class="compare-cell yes">✓</div>
+        <div class="compare-cell label">outcome</div><div class="compare-cell outcome">Self-built profitability</div><div class="compare-cell outcome">Profitable in 30 days</div><div class="compare-cell outcome">Funded + profitable</div>
+      </div>
+      <div class="compare-cta">
+        <p class="compare-cta-text">Still not sure? Talk to the AI — bottom right.</p>
+        <a href="https://keomazz22.github.io/waitlist-/" target="_blank" class="cta-btn">Book a Discovery Call <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip"><div class="trust-wrap">
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>stripe secured checkout</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>256-bit encryption</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>14-day refund window</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>1,200+ traders enrolled</div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>verified mentors</div>
+  </div></section>
+
+  <footer>
+    <div class="footer-logo"><span class="keo">KEO</span><span class="mazz">MAZZ</span></div>
+    <p class="footer-tag">The system works. The only question is how close you want to be.</p>
+    <div class="footer-links"><a href="#window">the window</a><a href="#mentor1">to profitable</a><a href="#mentor2">from zero</a><a href="#compare">compare</a><a href="mailto:chiavassaethanwork@gmail.com">contact</a></div>
+    <div class="footer-copy">© 2026 ifx cartel · all rights reserved</div>
+    <div class="footer-legal">
+      <p class="footer-disclaimer">Trading foreign exchange and other leveraged instruments carries substantial risk and may not be suitable for every investor. Past performance is not indicative of future results. The information presented by IFX Cartel is for educational purposes only and does not constitute financial advice. You are solely responsible for your trading decisions.</p>
+      <div class="footer-bottom-row">
+        <div class="footer-copy">made in switzerland · operated globally</div>
+        <div class="footer-legal-links"><a href="#">terms</a><a href="#">privacy</a><a href="#">refunds</a><a href="#">risk disclosure</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="chat-fab" id="fab" aria-label="Open chat">
+    <span class="fab-badge">AI</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  </button>
+  <div class="chat-panel" id="panel">
+    <div class="chat-header">
+      <div><div class="chat-title"><span class="chat-title-dot"></span><span class="chat-title-text">Cartel AI</span></div><span class="chat-title-sub">online · pick your tier</span></div>
+      <button class="chat-close" id="close" aria-label="Close">×</button>
+    </div>
+    <div class="chat-messages" id="msgs"><div class="msg bot">Welcome to IFX Cartel. I'm here to help you pick the right tier — The Window, To Profitable, or From Zero. What's your situation?</div></div>
+    <div class="chat-suggestions">
+      <button class="chat-suggestion" data-q="i'm a beginner">i'm a beginner</button>
+      <button class="chat-suggestion" data-q="i'm stuck losing">i'm stuck losing</button>
+      <button class="chat-suggestion" data-q="self-paced">self-paced</button>
+      <button class="chat-suggestion" data-q="pricing">pricing</button>
+    </div>
+    <div class="chat-input-wrap">
+      <input class="chat-input" id="input" placeholder="ask anything…"/>
+      <button class="chat-send" id="send" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</div>
+<script>
+const fab=document.getElementById('fab'),panel=document.getElementById('panel'),close=document.getElementById('close'),
+input=document.getElementById('input'),send=document.getElementById('send'),msgs=document.getElementById('msgs');
+fab.onclick=()=>panel.classList.toggle('open');close.onclick=()=>panel.classList.remove('open');
+function add(t,c){const d=document.createElement('div');d.className='msg '+c;d.textContent=t;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+function reply(t){const x=t.toLowerCase();let r="Got it — a human will follow up. Meanwhile, scroll the comparison table.";
+  if(/(beginner|zero|new)/.test(x))r="From Zero is built for you. Funded + profitable from no chart experience. $2,500.";
+  else if(/(stuck|losing|red)/.test(x))r="To Profitable is the fix. 30-day track with Ethan + Ameer. $1,800.";
+  else if(/(self|alone|software)/.test(x))r="The Window — software + AI 30-day journey + lifetime access. $999.";
+  else if(/(price|cost)/.test(x))r="Three tiers: $999 / $1,800 / $2,500. Payment plans on every tier.";
+  setTimeout(()=>add(r,'bot'),500)}
+function ask(t){if(!t.trim())return;add(t,'user');input.value='';reply(t)}
+send.onclick=()=>ask(input.value);input.onkeydown=e=>{if(e.key==='Enter')ask(input.value)};
+document.querySelectorAll('.chat-suggestion').forEach(b=>b.onclick=()=>ask(b.dataset.q));
+</script>
+</body></html>
